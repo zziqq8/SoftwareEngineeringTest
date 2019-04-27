@@ -17,19 +17,21 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
  * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 /* Anagram Game Application */
 
 package com.toy.anagrams.lib;
+
+import java.util.Random;
 
 /**
  * Implementation of the logic for the Anagram Game application.
@@ -84,6 +86,7 @@ final class StaticWordLibrary extends WordLibrary {
         "windermere",
         "traditional"};
 
+    /*
     private static final String[] SCRAMBLED_WORD_LIST = {
         "batsartcoin",
         "maibuguos",
@@ -132,7 +135,8 @@ final class StaticWordLibrary extends WordLibrary {
         "iwdnemrere",
         "rtdatioialn"
     };
-    
+    */
+
     final static WordLibrary DEFAULT = new StaticWordLibrary();
 
     /**
@@ -156,7 +160,28 @@ final class StaticWordLibrary extends WordLibrary {
      * @return word at that index in its scrambled form
      */
     public String getScrambledWord(int idx) {
-        return SCRAMBLED_WORD_LIST[idx];
+    	String s=WORD_LIST[idx];
+    	if(s.length()/4>0) {
+   	     	int border = new Random().nextInt(s.length()-2)+1;
+   	     	String s1=getScrambledWord(s.substring(border, s.length()));
+   	     	String s2=getScrambledWord(s.substring(0,border));
+   	     	s = s1+ s2;
+       	}
+           return s;
+    }
+
+    /*
+     * こっちを使うよう変更すれば、3人目の実装が楽(2人チームですが...)
+     * 具体的には、レベルの数だけ繰り返しこちらを呼び出すようにすればシャッフルされる回数が増えるように変更できたと言える。
+     */
+    public String getScrambledWord(String s) {
+    	if(s.length()/5>0) {
+   	     	int border = new Random().nextInt(s.length()-2)+1;
+   	     	String s1=getScrambledWord(s.substring(border, s.length()));
+   	     	String s2=getScrambledWord(s.substring(0,border));
+   	     	s = s1+ s2;
+       	}
+           return s;
     }
 
     /**
